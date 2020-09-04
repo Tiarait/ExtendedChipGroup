@@ -3,6 +3,7 @@ ExtendedChipGroup inherits from ChipGroup which was added in google material lib
 
 ## Getting Started
 * implementation 'com.google.android.material:material:1.2.0'
+* Your theme must inherit from Theme.MaterialComponents
 * Declareted styleable in ur attr
 ```
   <declare-styleable name="ChipGroup">
