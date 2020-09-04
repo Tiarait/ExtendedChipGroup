@@ -92,12 +92,14 @@ class ExtendedChipGroup : ChipGroup {
         removeAllViews()
         lastChipsList.clear()
         for (string in text) {
-            val chip = Chip(context)
-            chip.text = string
-            chip.isSelected = true
-            chip.isCheckable = true
-            lastChipsList.add(string)
-            addView(chip)
+            if (string.isNotEmpty()) {
+                val chip = Chip(context)
+                chip.text = string
+                chip.isSelected = true
+                chip.isCheckable = true
+                lastChipsList.add(string)
+                addView(chip)
+            }
         }
     }
 
