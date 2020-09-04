@@ -50,7 +50,7 @@ additionalChipHide | (string) title for hide|less button
 
 ## License 
  
-    Copyright 2014 Niek Haarman
+    Copyright 2020 Vasily Raisky
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
