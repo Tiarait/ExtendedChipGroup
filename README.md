@@ -1,6 +1,8 @@
 # ExtendedChipGroup
 ExtendedChipGroup inherits from ChipGroup which was added in google material library. I added a function to control the max number of lines, as well as buttons for while / hiding chips
 
+[Youtube](https://www.youtube.com/watch?v=Wczd4a_lLx4&feature=youtu.be)
+
 ## Getting Started
 * implementation 'com.google.android.material:material:1.2.0'
 * Your theme must inherit from Theme.MaterialComponents
