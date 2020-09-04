@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ChipGroup">
+        <attr name="maxRow" format="reference|integer"/>
+        <attr name="additionalChipMore" format="reference|string"/>
+        <attr name="additionalChipHide" format="reference|string"/>
+        <attr name="additionalChipColor" format="reference|color"/>
+        <attr name="additionalChipColorPressed" format="reference|color"/>
+        <attr name="additionalTextColor" format="reference|color"/>
+        <attr format="dimension" name="lineSpacing"/>
+        <attr format="dimension" name="itemSpacing"/>
+    </declare-styleable>
+</resources>

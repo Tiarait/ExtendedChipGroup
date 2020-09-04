@@ -1,0 +1,43 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="android:navigationBarColor">@color/colorDarken</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Dark" parent="AppTheme">
+        <item name="android:navigationBarColor">@color/colorDark</item>
+        <!--toolbar-->
+        <item name="colorPrimary">@color/colorDark</item>
+        <!--background-->
+        <item name="android:windowBackground">@color/colorDark</item>
+        <!--item-->
+        <item name="android:colorBackground">@color/colorDarkItem</item>
+        <!--item back-->
+        <item name="colorOnBackground">@color/colorDarken</item>
+        <!--button cancel url-->
+        <item name="android:colorBackgroundCacheHint">@color/colorDarkBtnSecondary</item>
+        <!--corner-->
+        <item name="android:colorForeground">@color/colorDarkText</item>
+        <!--ripple-->
+        <item name="rippleColor">@color/colorDarkRipple</item>
+
+        <item name="colorControlNormal">@color/colorDarkText</item>
+        <item name="colorAccent">@color/colorDarkText</item>
+
+        <!--icon color drawable-->
+        <item name="iconTint">@color/colorDarkIconTint</item>
+        <!--icon color drawable cancel url-->
+        <item name="itemIconTint">@color/colorDarkIconTintSecondary</item>
+        <!--title-->
+        <item name="android:textColor">@color/colorDarkText</item>
+        <!--subtitle + drawable cancel url-->
+        <item name="android:textColorSecondary">@color/colorDarkTextSecondary</item>
+        <!--fab label-->
+        <item name="android:textColorPrimaryInverse">@color/colorDarkTextInverse</item>
+
+        <item name="colorError">@color/colorDarkError</item>
+    </style>
+
+</resources>

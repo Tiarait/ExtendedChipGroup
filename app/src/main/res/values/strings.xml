@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ExtendedChipGroup</string>
+    <string name="btn_show">Show</string>
+    <string name="btn_hide">Hide</string>
+    <string name="btn_show_hint">Chip Show</string>
+    <string name="btn_hide_hint">Chip Hide</string>
+    <string name="input_tags">Input tags</string>
+    <string name="separator">Separator</string>
+    <string name="row">Row count</string>
+    <string name="test">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed odio eros, ullamcorper non massa ultricies, maximus viverra tortor. Proin mollis ornare convallis. Ut sit amet libero tempor, imperdiet erat at, commodo lacus. Sed ac viverra lectus. Integer volutpat mi purus, sit amet lacinia arcu convallis at. In imperdiet interdum odio accumsan molestie.</string>
+</resources>

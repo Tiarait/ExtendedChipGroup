@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimaryDark">#fefefe</color>
+    <color name="colorPrimary">#f6f6f6</color>
+    <color name="colorAccent">#EEE</color>
+
+    <color name="colorDark">#23262f</color>
+    <color name="colorDarken">#1b1c21</color>
+    <color name="colorDarkItem">#393b48</color>
+    <color name="colorDarkBtn">#4165aa</color>
+    <color name="colorDarkBtnSecondary">#2a4477</color>
+    <color name="colorDarkIconTint">#ffffff</color>
+    <color name="colorDarkIconTintSecondary">#C8C8C8</color>
+    <color name="colorDarkError">#F44336</color>
+    <color name="colorDarkErrorSecondary">#AC332A</color>
+    <color name="colorDarkUnknown">#EF6C00</color>
+    <color name="colorDarkSuccess">#70C857</color>
+    <color name="colorDarkCorner">#666B8A</color>
+    <color name="colorDarkText">#ffffff</color>
+    <color name="colorDarkTextSecondary">#C8C8C8</color>
+    <color name="colorDarkTextInverse">#C8C8C8</color>
+    <color name="colorDarkRipple">#70ffffff</color>
+</resources>
