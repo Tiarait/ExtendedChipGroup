@@ -15,6 +15,7 @@ ExtendedChipGroup inherits from ChipGroup which was added in google material lib
         <attr name="additionalChipColor" format="reference|color"/>
         <attr name="additionalChipColorPressed" format="reference|color"/>
         <attr name="additionalTextColor" format="reference|color"/>
+        <attr name="additionalChipFixed" format="reference|boolean"/>
         <attr format="dimension" name="lineSpacing"/>
         <attr format="dimension" name="itemSpacing"/>
     </declare-styleable>
@@ -38,6 +39,7 @@ ExtendedChipGroup inherits from ChipGroup which was added in google material lib
 First Header | Second Header
 ------------ | -------------
 maxRow | (int) maximum number of ChipGroup lines
+additionalChipFixed | (boolean) show (Hide) button in the same place as (Show) button
 additionalTextColor | (color) additional buttons text color (Show | Hide)
 additionalChipColor | (color) additional background colors of the buttons when rest
 additionalChipColorPressed | (color) additional background colors of the button when pressed
