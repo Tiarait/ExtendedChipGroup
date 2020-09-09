@@ -7,6 +7,7 @@
         <attr name="additionalChipColor" format="reference|color"/>
         <attr name="additionalChipColorPressed" format="reference|color"/>
         <attr name="additionalTextColor" format="reference|color"/>
+        <attr name="additionalChipFixed" format="reference|boolean"/>
         <attr format="dimension" name="lineSpacing"/>
         <attr format="dimension" name="itemSpacing"/>
     </declare-styleable>

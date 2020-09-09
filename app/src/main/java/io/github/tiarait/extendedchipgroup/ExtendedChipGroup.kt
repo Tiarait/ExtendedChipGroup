@@ -6,8 +6,7 @@ import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
-import androidx.core.view.MarginLayoutParamsCompat
-import androidx.core.view.ViewCompat
+import androidx.core.view.*
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
@@ -30,7 +29,7 @@ class ExtendedChipGroup : ChipGroup {
     private var lastChipsList: ArrayList<String> = ArrayList()
     private var mLineSpacing = 0
     private var mItemSpacing = 0
-
+    private var mChipFixed = false
     constructor(context: Context?) : this(context, null)
     constructor(context: Context?, attrs: AttributeSet?) : this(context, attrs, com.google.android.material.R.attr.chipGroupStyle)
 
@@ -55,6 +54,8 @@ class ExtendedChipGroup : ChipGroup {
         chipMoreColor = a.getColor(R.styleable.ChipGroup_additionalChipColor, -0xeee)
         chipMoreColorPressed = a.getColor(R.styleable.ChipGroup_additionalChipColorPressed, -0xc5c5c5)
         chipMoreColorText = a.getColor(R.styleable.ChipGroup_additionalTextColor, -0x000)
+        //фиксируем chip в последней макс строке
+        mChipFixed = a.getBoolean(R.styleable.ChipGroup_additionalChipFixed, false)
 
         colorStateList = ColorStateList(
             arrayOf(intArrayOf(android.R.attr.state_pressed), intArrayOf()),
@@ -105,6 +106,8 @@ class ExtendedChipGroup : ChipGroup {
 
     //в оригинале (FlowLayout) - rowCount
     var row = 0
+//    var prevBackgroundColor: ColorStateList? = null
+//    var prevTextColor: Int? = null
     //копия с оригинала (FlowLayout)  + корректировки
     override fun onLayout(sizeChanged: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         if (childCount == 0) {
@@ -124,75 +127,96 @@ class ExtendedChipGroup : ChipGroup {
         val maxChildEnd = right - left - paddingEnd
 
         for (i in 0 until childCount) {
-            if (getChildAt(i) == null) {
-                continue
-            }
-            val child = getChildAt(i) as Chip
-            if (child.visibility == View.GONE) {
-                child.setTag(R.id.row_index_key, -1)
-                continue
-            }
-            val lp = child.layoutParams
-            var startMargin = 0
-            var endMargin = 0
-            if (lp is MarginLayoutParams) {
-                startMargin = MarginLayoutParamsCompat.getMarginStart(lp)
-                endMargin = MarginLayoutParamsCompat.getMarginEnd(lp)
-            }
-            childEnd = childStart + startMargin + child.measuredWidth
-            if (!isSingleLine && childEnd > maxChildEnd) {
-                childStart = paddingStart
-                childTop = childBottom + mLineSpacing
-                row++
-                //если строк больше чем maxRow - заменяем последний элемент пред строки на
-                //"chipMoreTitle/ЕЩЕ (колво оставшихся)"
-                if (row > maxRow && (i - 1) > 0  && chipMoreTitle.isNotEmpty()) {
-                    getChildAt(i).visibility = View.GONE
-                    val showChip = (getChildAt(i - 1) as Chip)
-                    showChip.chipBackgroundColor = colorStateList
-                    showChip.setTextColor(chipMoreColorText)
-                    showChip.text = chipMoreTitle + " (${childCount - i + 1})"
-                    showChip.isCheckable = false
-                    showChip.isSelected = false
-                    //при клике на chipMoreTitle выставляем maxRow на максимум и обновляем элементы
-                    //после добавляем chipHideTitle
-                    showChip.setOnClickListener {
-                        maxRow = Int.MAX_VALUE
-                        setChips(ArrayList(lastChipsList))
+            if (getChildAt(i) != null) {
+                val child = getChildAt(i) as Chip
+//                if (prevBackgroundColor == null) prevBackgroundColor = child.chipBackgroundColor
+//                if (prevTextColor == null) prevTextColor = child.currentTextColor
+                if (child.visibility == View.GONE) {
+                    child.setTag(R.id.row_index_key, -1)
+                    continue
+                }
+                val lp = child.layoutParams
+                var startMargin = 0
+                var endMargin = 0
+                if (lp is MarginLayoutParams) {
+                    startMargin = MarginLayoutParamsCompat.getMarginStart(lp)
+                    endMargin = MarginLayoutParamsCompat.getMarginEnd(lp)
+                }
+                childEnd = childStart + startMargin + child.measuredWidth
+                var pChild: Chip? = null
+                if (getChildAt(i-1) != null && getChildAt(i-1) is Chip && mChipFixed) {
+                    pChild = getChildAt(i-1) as Chip
+                }
+                if (!isSingleLine && (childEnd > maxChildEnd || (pChild != null && pChild.text == chipHideTitle))) {
+                    childStart = paddingStart
+                    childTop = childBottom + mLineSpacing
 
-                        if (chipHideTitle.isNotEmpty()) {
-                            val hideChip = Chip(context)
-                            hideChip.chipBackgroundColor = colorStateList
-                            hideChip.setTextColor(chipMoreColorText)
-                            hideChip.text = chipHideTitle
-                            hideChip.isSelected = false
-                            hideChip.isCheckable = false
-                            //при клике на chipHideTitle выставляем maxRow на заданный и обновляем элементы
-                            hideChip.setOnClickListener {
-                                maxRow = maxRowDef
-                                setChips(ArrayList(lastChipsList))
+                    //если строк больше чем maxRow - заменяем последний элемент пред строки на
+                    //"chipMoreTitle/ЕЩЕ (колво оставшихся)"
+                    if (row == maxRow && (i - 1) > 0 && chipMoreTitle.isNotEmpty()) {
+                        val showChip = (getChildAt(i - 1) as Chip)
+                        showChip.setTextColor(chipMoreColorText)
+                        showChip.chipBackgroundColor = colorStateList
+                        showChip.text = chipMoreTitle + " (${childCount - i + 1})"
+                        showChip.isCheckable = false
+                        showChip.isSelected = false
+                        //при клике на chipMoreTitle выставляем maxRow на максимум и обновляем элементы
+                        //после добавляем chipHideTitle
+                        showChip.setOnClickListener {
+                            maxRow = Int.MAX_VALUE
+
+                            setChips(ArrayList(lastChipsList))
+
+                            if (chipHideTitle.isNotEmpty()) {
+                                val hideChip = Chip(context)
+                                hideChip.chipBackgroundColor = colorStateList
+                                hideChip.setTextColor(chipMoreColorText)
+                                hideChip.text = chipHideTitle
+                                hideChip.isSelected = false
+                                hideChip.isCheckable = false
+                                //при клике на chipHideTitle выставляем maxRow на заданный и обновляем элементы
+                                hideChip.setOnClickListener {
+                                    maxRow = maxRowDef
+                                    setChips(ArrayList(lastChipsList))
+                                }
+                                if (mChipFixed) addView(hideChip, i-1)
+                                else addView(hideChip)
                             }
-                            addView(hideChip)
                         }
                     }
+                    row++
                 }
+                //проверяем - если строк больше чем maxRow - скрываем элементы
+                child.visibility = if (row > maxRow) View.GONE else View.VISIBLE
+//                if (child.text != chipHideTitle) {
+//
+//                    if (prevTextColor != null)
+//                        child.setTextColor(prevTextColor!!)
+//                    if (lastChipsList.size > i)
+//                        child.text = lastChipsList[i]
+//                    if (prevBackgroundColor != null)
+//                        child.chipBackgroundColor = prevBackgroundColor
+//                    child.isCheckable = true
+//                    child.isSelected = true
+//                    child.setOnClickListener {
+//
+//                    }
+//                }
+                child.setTag(R.id.row_index_key, row - 1)
+                childEnd = childStart + startMargin + child.measuredWidth
+                childBottom = childTop + child.measuredHeight
+                if (isRtl) {
+                    child.layout(
+                            maxChildEnd - childEnd,
+                            childTop,
+                            maxChildEnd - childStart - startMargin,
+                            childBottom
+                    )
+                } else {
+                    child.layout(childStart + startMargin, childTop, childEnd, childBottom)
+                }
+                childStart += startMargin + endMargin + child.measuredWidth + mItemSpacing
             }
-            //проверяем - если строк больше чем maxRow - скрываем элементы
-            child.visibility = if (row > maxRow) View.GONE else View.VISIBLE
-            child.setTag(R.id.row_index_key, row - 1)
-            childEnd = childStart + startMargin + child.measuredWidth
-            childBottom = childTop + child.measuredHeight
-            if (isRtl) {
-                child.layout(
-                    maxChildEnd - childEnd,
-                    childTop,
-                    maxChildEnd - childStart - startMargin,
-                    childBottom
-                )
-            } else {
-                child.layout(childStart + startMargin, childTop, childEnd, childBottom)
-            }
-            childStart += startMargin + endMargin + child.measuredWidth + mItemSpacing
         }
     }
 }
